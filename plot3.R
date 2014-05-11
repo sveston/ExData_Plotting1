@@ -1,0 +1,13 @@
+hpc <- read.table("E:/R/exdata-data-household_power_consumption/hpc.txt", sep=";", quote="\"",header=TRUE)
+hpc[,"Date"]<-as.Date(hpc[,"Date"],format='%d/%m/%Y')
+data<-subset(hpc,hpc$Date=="2007-02-01"|hpc$Date=="2007-02-02")
+data[,"Sub_metering_1"]<-as.numeric(data[,"Sub_metering_1"])
+data[,"Sub_metering_2"]<-as.numeric(data[,"Sub_metering_2"])
+data[,"Sub_metering_3"]<-as.numeric(data[,"Sub_metering_3"])
+data$DateTime <- do.call(paste,c(data[c("Date","Time")],sep=" "))
+data[,"DateTime"]<-as.POSIXct(data[,"DateTime"], format = "%Y-%m-%d %H:%M:%S")
+plot(data$DateTime,data$Sub_metering_1,ylim=c(0,35),lwd=1,type="l",xlab="",ylab="Energy sub metering")
+lines(data$DateTime,data$Sub_metering_2,lwd=1,type="l",xlab="",ylab="Energy sub metering",col="red")
+lines(data$DateTime,data$Sub_metering_3,lwd=1,type="l",xlab="",ylab="Energy sub metering",col="blue")
+legend("topright",pch="____",col=c("black","red","blue"),legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"))
+

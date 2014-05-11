@@ -1,0 +1,7 @@
+hpc <- read.table("E:/R/exdata-data-household_power_consumption/hpc.txt", sep=";", quote="\"",header=TRUE)
+hpc[,"Date"]<-as.Date(hpc[,"Date"],format='%d/%m/%Y')
+data<-subset(hpc,hpc$Date=="2007-02-01"|hpc$Date=="2007-02-02")
+data[,"Global_active_power"]<-as.numeric(data[,"Global_active_power"])
+data$DateTime <- do.call(paste,c(data[c("Date","Time")],sep=" "))
+data[,"DateTime"]<-as.POSIXct(data[,"DateTime"], format = "%Y-%m-%d %H:%M:%S")
+plot(data$DateTime,data$Global_active_power/1000,lwd=1,type="l",xlab="",ylab="Global Active Power (kilowatts)")
